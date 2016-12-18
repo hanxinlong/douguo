@@ -1,10 +1,58 @@
 <?php
 namespace app\index\controller;
-
-class Index
+use app\index\model\Category;
+use app\index\model\User;
+use think\Controller;
+use think\Db;
+use app\index\model\Adv;
+use app\index\model\Link;
+use app\index\model\Classify;
+use app\index\model\Course;
+use app\index\model\Goods;
+use app\index\model\Step;
+use app\index\model\Ingredient;
+class Index extends Controller
 {
-    public function index()
-    {
-        return '<style type="text/css">*{ padding: 0; margin: 0; } .think_default_text{ padding: 4px 48px;} a{color:#2E5CD5;cursor: pointer;text-decoration: none} a:hover{text-decoration:underline; } body{ background: #fff; font-family: "Century Gothic","Microsoft yahei"; color: #333;font-size:18px} h1{ font-size: 100px; font-weight: normal; margin-bottom: 12px; } p{ line-height: 1.6em; font-size: 42px }</style><div style="padding: 24px 48px;"> <h1>:)</h1><p> ThinkPHP V5<br/><span style="font-size:30px">十年磨一剑 - 为API开发设计的高性能框架</span></p><span style="font-size:22px;">[ V5.0 版本由 <a href="http://www.qiniu.com" target="qiniu">七牛云</a> 独家赞助发布 ]</span></div><script type="text/javascript" src="http://tajs.qq.com/stats?sId=9347272" charset="UTF-8"></script><script type="text/javascript" src="http://ad.topthink.com/Public/static/client.js"></script><thinkad id="ad_bd568ce7058a1091"></thinkad>';
-    }
+	public function index(category $category, User $user, Link $link, Course $course, Goods $goods, Adv $adv)
+	{
+		// dump(session('user'));die();
+		$site_type= Db::name('siteinfo')->where('id',1)->value('web_type');
+		if ($site_type == 0) {
+			$this->error('尊敬的吃货，本站点已关闭，为您带来的不便敬请谅解');
+		} 
+		$result = $category->classFind();
+		$result1 = $category->doClass(); 
+		$usedata = $user->userData(session('user')['use_id']);
+		$data = $user->doSet();
+		$showGoods = $goods->showGoods();
+		
+		$pic = Db::name('Adv')->where('id','>=',1)->select();
+		// dump($pic);die();
+		$this->assign('pic',$pic);
+		// dump($showGoods);die;
+		$this->assign('showGoods', $showGoods);
+		if (!empty($usedata) && !empty($data)) {
+			$this->assign('setInfo', $data[0]);
+			
+			$this->assign('coin', $usedata[0]['coin']);
+		}
+		$linkRes = $link->doLink();
+		$courRes = $course->doCour();
+
+		$this->assign('courData', $courRes);
+		$this->assign('link', $linkRes);
+		$this->assign('data', $result);
+		$this->assign('data1', $result1);
+		return $this->fetch();
+	}
+
+	
+
+	public function logout()
+	{
+		
+		session(null);
+		$this->success('退出成功', 'index/index');
+		
+	}
 }

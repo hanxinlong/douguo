@@ -19,7 +19,7 @@ return [
     // 应用调试模式
     'app_debug'              => true,
     // 应用Trace
-    'app_trace'              => false,
+    'app_trace'              => true,
     // 应用模式状态
     'app_status'             => '',
     // 是否支持多模块
@@ -139,7 +139,12 @@ return [
     ],
 
     // 视图输出字符串内容替换
-    'view_replace_str'       => [],
+    'view_replace_str'       => [
+        '__SITE__' => 'http://1603.bigcheng.com',
+        '__ADMINSTATIC__' => 'http://1603.bigcheng.com/static/admin',
+        '__STATIC__' => 'http://1603.bigcheng.com/static/index',
+        '__WEBSITE__' => 'http://1603.bigcheng.com/upload/',
+    ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
     'dispatch_error_tmpl'    => THINK_PATH . 'tpl' . DS . 'dispatch_jump.tpl',
@@ -236,4 +241,44 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+
+
+    'captcha' => [
+        // 验证码字符集合
+            'codeSet' => '234567',
+        // 验证码字体大小(px)
+            'fontSize' => 15,
+        // 是否画混淆曲线
+            'useCurve' => true,
+        // 验证码图片高度
+            'imageH' => 35,
+        // 验证码图片宽度
+            'imageW' => 100,
+        // 验证码位数
+            'length' => 4,
+        // 验证成功后是否重置
+            'reset' => true
+            ],
+    //验证邮箱设置
+
+    // 'MAIL_HOST'   => 'smtp.exmail.qq.com', //服务器
+
+    // 'MAIL_PORT'   => '25', //端口号
+
+    // 'MAIL_USER'   => 'faith@petattic.cn', //用户名
+
+    // 'MAIL_PASS'   => 'Wwj12345678', //密码
+
+    // 'MAIL_FROM'   => 'faith@petattic.cn', //邮箱地址
+     
+
+    'MAIL_HOST'   => 'smtp.exmail.qq.com', //服务器
+
+    'MAIL_PORT'   => '25', //端口号
+
+    'MAIL_USER'   => 'qwe123@bigcheng.cn', //用户名
+// czy1987763615@bigcheng.cn
+    'MAIL_PASS'   => 'Asd123456', //密码
+
+    'MAIL_FROM'   => 'qwe123@bigcheng.cn', //邮箱地址       
 ];
